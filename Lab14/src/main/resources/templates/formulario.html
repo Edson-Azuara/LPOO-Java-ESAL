@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contacto</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; display: flex; justify-content: center; margin: 60px 16px; }
+        .caja { background: #16213e; padding: 40px; border-radius: 12px; border: 1px solid #4a90d9; width: min(380px, 100%); }
+        h1 { color: #f0c040; text-align: center; margin-bottom: 24px; }
+        label { display: block; margin-bottom: 4px; color: #aaa; font-size: .9em; }
+        input { width: 100%; padding: 10px; margin-bottom: 16px; background: #0f3460; border: 1px solid #4a90d9; border-radius: 6px; color: #fff; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #4a90d9; border: 0; border-radius: 6px; color: white; font-size: 1em; cursor: pointer; }
+        a { display: block; text-align: center; margin-top: 16px; color: #7db7ff; }
+    </style>
+</head>
+<body>
+    <main class="caja">
+        <h1 th:text="${contacto.id} != null ? 'Editar contacto' : 'Nuevo contacto'">Contacto</h1>
+        <form th:action="${contacto.id} != null ? @{/actualizar} : @{/guardar}"
+              th:object="${contacto}" method="post">
+            <input type="hidden" th:field="*{id}">
+
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" th:field="*{nombre}" required maxlength="100">
+
+            <label for="apellido">Apellido</label>
+            <input id="apellido" type="text" th:field="*{apellido}" required maxlength="100">
+
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}" required maxlength="255">
+
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" type="tel" th:field="*{telefono}" maxlength="30">
+
+            <button type="submit">Guardar contacto</button>
+        </form>
+        <a th:href="@{/contactos}">Cancelar</a>
+    </main>
+</body>
+</html>

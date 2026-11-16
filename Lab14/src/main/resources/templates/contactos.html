@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agenda de contactos</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; padding: 40px; }
+        h1 { color: #f0c040; }
+        a, button { font: inherit; }
+        .btn { display: inline-block; padding: 10px 20px; background: #4a90d9; color: white; border: 0; border-radius: 6px; text-decoration: none; cursor: pointer; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th { background: #0f3460; color: #fff; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #333; }
+        tr:hover { background: #16213e; }
+        .editar { color: #7db7ff; margin-right: 12px; }
+        .eliminar { background: none; border: 0; color: #ff7777; text-decoration: underline; cursor: pointer; }
+        .vacio { color: #aaa; font-style: italic; margin-top: 20px; }
+        @media (max-width: 700px) { body { padding: 16px; } table { font-size: .9rem; } th, td { padding: 8px 4px; } }
+    </style>
+</head>
+<body>
+    <h1>Agenda de contactos</h1>
+    <a class="btn" th:href="@{/nuevo}">+ Nuevo contacto</a>
+
+    <p th:if="${#lists.isEmpty(contactos)}" class="vacio">No hay contactos aún.</p>
+
+    <table th:unless="${#lists.isEmpty(contactos)}">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="contacto : ${contactos}">
+                <td th:text="${contacto.nombre}">Nombre</td>
+                <td th:text="${contacto.apellido}">Apellido</td>
+                <td th:text="${contacto.email}">Email</td>
+                <td th:text="${contacto.telefono}">Teléfono</td>
+                <td>
+                    <a class="editar" th:href="@{/editar/{id}(id=${contacto.id})}">Editar</a>
+                    <form th:action="@{/eliminar/{id}(id=${contacto.id})}" method="post" style="display:inline"
+                          onsubmit="return confirm('¿Eliminar este contacto?')">
+                        <button class="eliminar" type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
